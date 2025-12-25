@@ -1,4 +1,4 @@
-# Nourish Admin Dashboard + Firebase Backend
+# Cafe Admin Dashboard + Firebase Backend
 
 This repository contains the Admin Dashboard frontend (React + Vite) and the production-ready Backend (Express + Firebase).
 
