@@ -19,6 +19,7 @@ interface AuthContextType extends AuthState {
   openLoginModal: () => void;
   closeLoginModal: () => void;
   isLoginModalOpen: boolean;
+  authError: string | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -30,6 +31,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isAuthenticated: false,
     isAdmin: false,
   });
+  const [authError, setAuthError] = useState<string | null>(null);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -62,8 +64,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               isAdmin: user.role === 'admin',
             });
           }
-        } catch (error) {
+        } catch (error: any) {
           console.error('Error syncing user:', error);
+          setAuthError(
+            `Backend connection failed: ${error.message || 'Unknown error'}. ` +
+            `Ensure VITE_API_BASE_URL is set correctly.`
+          );
           // If backend sync fails, logout or handle error
           // For now, minimal fallback or logout
           // signOut(auth); // Optional: force logout if backend rejects
@@ -187,6 +193,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       openLoginModal,
       closeLoginModal,
       isLoginModalOpen,
+      authError,
     }}>
       {!loading && children}
     </AuthContext.Provider>

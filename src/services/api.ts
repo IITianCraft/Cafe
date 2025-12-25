@@ -12,6 +12,13 @@ export const api = axios.create({
   },
 });
 
+if (import.meta.env.PROD && BASE_URL.includes('localhost')) {
+  console.error(
+    'CRITICAL ERROR: Production build is using localhost API URL. ' +
+    'Please set VITE_API_BASE_URL environment variable to your deployed backend URL.'
+  );
+}
+
 // Request interceptor - add auth token
 api.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {

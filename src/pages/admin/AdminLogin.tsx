@@ -14,16 +14,26 @@ export default function AdminLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState(''); // Firebase requires strong password
   const [isLoading, setIsLoading] = useState(false);
-  const { login, register } = useAuth(); // Fix: signup -> register
+  const { login, register, isAuthenticated, authError } = useAuth(); // Fix: signup -> register
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     if (isAuthenticated) {
       navigate('/admin');
     }
   }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    if (authError) {
+      toast({
+        title: "Authentication Error",
+        description: authError,
+        variant: "destructive",
+        duration: 10000,
+      });
+    }
+  }, [authError, toast]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
