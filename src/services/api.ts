@@ -1,7 +1,7 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { auth } from '@/lib/firebase';
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? 'https://cafe-s9fh.onrender.com' : 'http://localhost:5001');
 
 // Create axios instance
 export const api = axios.create({
@@ -11,13 +11,6 @@ export const api = axios.create({
     'Content-Type': 'application/json',
   },
 });
-
-if (import.meta.env.PROD && BASE_URL.includes('localhost')) {
-  console.error(
-    'CRITICAL ERROR: Production build is using localhost API URL. ' +
-    'Please set VITE_API_BASE_URL environment variable to your deployed backend URL.'
-  );
-}
 
 // Request interceptor - add auth token
 api.interceptors.request.use(
