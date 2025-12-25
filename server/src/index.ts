@@ -32,6 +32,11 @@ app.get('/health', (req, res) => {
     res.json({ success: true, message: 'Server is running' });
 });
 
+// Root Route
+app.get('/', (req, res) => {
+    res.json({ success: true, message: 'Nourish Admin Backend is running' });
+});
+
 import restaurantRoutes from './routes/restaurant.routes';
 import reservationsRoutes from './routes/reservations.routes';
 import categoriesRoutes from './routes/categories.routes';
